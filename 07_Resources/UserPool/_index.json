@@ -1,0 +1,37 @@
+{
+	"CognitoUserPool": {
+		"Type": "AWS::Cognito::UserPool",
+		"Properties": {
+			"UserPoolName": { "Ref": "AWS::StackName" },
+			"UsernameAttributes": [ "email" ],
+			"AutoVerifiedAttributes": [ "email" ],
+			"EmailVerificationMessage": "Your verification code is {####}.",
+			"MfaConfiguration": "OFF",
+			"DeviceConfiguration": {
+				"ChallengeRequiredOnNewDevice": true,
+				"DeviceOnlyRememberedOnUserPrompt": true
+			},
+			"EmailConfiguration": {
+				"ReplyToEmailAddress": { "Fn::Sub": "null@${ParamRootDomain}" },
+				"EmailSendingAccount": "DEVELOPER",
+				"SourceArn": { "Ref": "ParamSesVerifiedEmailARN" }
+			},
+			"Policies": {
+				"PasswordPolicy": {
+					"MinimumLength": 8,
+					"RequireLowercase": false,
+					"RequireNumbers": false,
+					"RequireSymbols": false,
+					"RequireUppercase": false
+				}
+			},
+			"Schema": [
+				{
+					"Mutable": true,
+					"Name": "email",
+					"Required": true
+				}
+			]
+		}
+	}
+}

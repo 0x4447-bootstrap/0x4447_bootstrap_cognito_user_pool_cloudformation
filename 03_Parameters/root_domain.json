@@ -1,0 +1,8 @@
+{
+	"ParamRootDomain": {
+		"Description": "The root domain used by Cognito to send out emails using SES.",
+		"Type": "String",
+		"ConstraintDescription": "must contain a valid domain name.",
+		"AllowedPattern": "^(?!:\/\/)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?$"
+	}
+}

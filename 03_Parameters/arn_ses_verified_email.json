@@ -1,0 +1,6 @@
+{
+	"ParamSesVerifiedEmailARN": {
+		"Description": "The ARN of a verified email address from SES.",
+		"Type": "String"
+	}
+}

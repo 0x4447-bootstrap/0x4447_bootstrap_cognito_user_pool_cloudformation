@@ -1,0 +1,6 @@
+{
+	"OutputCognitoUserPool": {
+		"Value": { "Ref": "CognitoUserPool" },
+		"Description": "Cognito User Pool ID."
+	}
+}

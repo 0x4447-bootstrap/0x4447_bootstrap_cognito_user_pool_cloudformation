@@ -1,0 +1,1 @@
+The Cognito service that manages all the user registration and management.

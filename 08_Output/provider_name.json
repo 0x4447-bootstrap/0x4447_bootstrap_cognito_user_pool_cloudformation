@@ -1,0 +1,6 @@
+{
+	"OutputCognitoProviderName": {
+		"Value": { "Fn::GetAtt": ["CognitoUserPool", "ProviderName"] },
+		"Description": "Provider Name."
+	}
+}

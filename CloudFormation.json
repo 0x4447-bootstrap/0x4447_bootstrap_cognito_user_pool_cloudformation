@@ -1,0 +1,97 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "The Cognito service that manages all the user registration and management.",
+	"Parameters": {
+		"ParamSesVerifiedEmailARN": {
+			"Description": "The ARN of a verified email address from SES.",
+			"Type": "String"
+		},
+		"ParamRootDomain": {
+			"Description": "The root domain used by Cognito to send out emails using SES.",
+			"Type": "String",
+			"ConstraintDescription": "must contain a valid domain name.",
+			"AllowedPattern": "^(?!://)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?$"
+		}
+	},
+	"Resources": {
+		"CognitoUserPool": {
+			"Type": "AWS::Cognito::UserPool",
+			"Properties": {
+				"UserPoolName": {
+					"Ref": "AWS::StackName"
+				},
+				"UsernameAttributes": [
+					"email"
+				],
+				"AutoVerifiedAttributes": [
+					"email"
+				],
+				"EmailVerificationMessage": "Your verification code is {####}.",
+				"MfaConfiguration": "OFF",
+				"DeviceConfiguration": {
+					"ChallengeRequiredOnNewDevice": true,
+					"DeviceOnlyRememberedOnUserPrompt": true
+				},
+				"EmailConfiguration": {
+					"ReplyToEmailAddress": {
+						"Fn::Sub": "null@${ParamRootDomain}"
+					},
+					"EmailSendingAccount": "DEVELOPER",
+					"SourceArn": {
+						"Ref": "ParamSesVerifiedEmailARN"
+					}
+				},
+				"Policies": {
+					"PasswordPolicy": {
+						"MinimumLength": 8,
+						"RequireLowercase": false,
+						"RequireNumbers": false,
+						"RequireSymbols": false,
+						"RequireUppercase": false
+					}
+				},
+				"Schema": [
+					{
+						"Mutable": true,
+						"Name": "email",
+						"Required": true
+					}
+				]
+			}
+		},
+		"CognitoUserPoolClients": {
+			"Type": "AWS::Cognito::UserPoolClient",
+			"Properties": {
+				"ClientName": "Web",
+				"ExplicitAuthFlows": [
+					"ADMIN_NO_SRP_AUTH"
+				],
+				"GenerateSecret": false,
+				"ReadAttributes": [
+					"email"
+				],
+				"RefreshTokenValidity": 30,
+				"UserPoolId": {
+					"Ref": "CognitoUserPool"
+				}
+			}
+		}
+	},
+	"Outputs": {
+		"OutputCognitoUserPool": {
+			"Value": {
+				"Ref": "CognitoUserPool"
+			},
+			"Description": "Cognito User Pool ID."
+		},
+		"OutputCognitoProviderName": {
+			"Value": {
+				"Fn::GetAtt": [
+					"CognitoUserPool",
+					"ProviderName"
+				]
+			},
+			"Description": "Provider Name."
+		}
+	}
+}
