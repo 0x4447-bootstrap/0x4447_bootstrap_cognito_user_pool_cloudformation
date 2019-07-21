@@ -68,12 +68,21 @@
 				],
 				"GenerateSecret": false,
 				"ReadAttributes": [
-					"email"
+					"address",
+					"email",
+					"family_name",
+					"given_name"
 				],
 				"RefreshTokenValidity": 30,
 				"UserPoolId": {
 					"Ref": "CognitoUserPool"
-				}
+				},
+				"WriteAttributes": [
+					"address",
+					"email",
+					"family_name",
+					"given_name"
+				]
 			}
 		}
 	},

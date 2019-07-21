@@ -9,7 +9,19 @@
 				"email"
 			],
 			"RefreshTokenValidity": 30,
-			"UserPoolId": { "Ref": "CognitoUserPool" }
+			"UserPoolId": { "Ref": "CognitoUserPool" },
+			"ReadAttributes": [
+				"address",
+				"email",
+				"family_name",
+				"given_name"
+			],
+			"WriteAttributes": [
+				"address",
+				"email",
+				"family_name",
+				"given_name"
+			]
 		}
 	}
 }
