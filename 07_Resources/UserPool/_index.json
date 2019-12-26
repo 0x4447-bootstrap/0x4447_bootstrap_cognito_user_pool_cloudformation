@@ -2,7 +2,7 @@
 	"CognitoUserPool": {
 		"Type": "AWS::Cognito::UserPool",
 		"Properties": {
-			"UserPoolName": { "Ref": "AWS::StackName" },
+			"UserPoolName": "zer0x_bootstrap",
 			"UsernameAttributes": [ "email" ],
 			"AutoVerifiedAttributes": [ "email" ],
 			"EmailVerificationMessage": "Your verification code is {####}.",
